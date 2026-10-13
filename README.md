@@ -33,7 +33,8 @@ Voraussetzung: **JDK 17 oder neuer**. Gradle muss nicht installiert sein (Gradle
 
 ```bash
 ./gradlew bootRun          # Linux / macOS / Git Bash
-gradlew.bat bootRun        # Windows cmd / PowerShell
+.\gradlew.bat bootRun      # Windows PowerShell (im Projektordner!)
+gradlew.bat bootRun        # Windows cmd
 ```
 
 | Was | URL |

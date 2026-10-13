@@ -2,7 +2,7 @@
 
 ## Starten
 ```bash
-./gradlew bootRun     # Windows: gradlew.bat bootRun
+./gradlew bootRun     # PowerShell: .gradlew.bat bootRun
 ./gradlew test        # 54 Tests
 ```
 Client `http://localhost:8080/` · Swagger `/swagger-ui.html` · OpenAPI `/v3/api-docs`
