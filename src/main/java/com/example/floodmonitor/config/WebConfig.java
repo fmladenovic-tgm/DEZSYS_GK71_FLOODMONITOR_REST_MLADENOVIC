@@ -34,7 +34,8 @@ public class WebConfig implements WebMvcConfigurer {
         configurer
                 .favorParameter(false)
                 .ignoreAcceptHeader(false)
-                .defaultContentType(MediaType.APPLICATION_JSON)
+                // JSON bevorzugt; */* als Fallback, damit Endpunkte ohne JSON (z.B. /v3/api-docs.yaml) erreichbar bleiben
+                .defaultContentType(MediaType.APPLICATION_JSON, MediaType.ALL)
                 .mediaType("json", MediaType.APPLICATION_JSON)
                 .mediaType("xml", MediaType.APPLICATION_XML);
     }
