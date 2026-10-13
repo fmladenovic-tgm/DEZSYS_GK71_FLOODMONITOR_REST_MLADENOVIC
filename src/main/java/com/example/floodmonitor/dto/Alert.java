@@ -3,17 +3,12 @@ package com.example.floodmonitor.dto;
 import com.example.floodmonitor.model.WarningLevel;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.time.Instant;
 
-/**
- * Aktuelle Hochwasserwarnung einer Station.
- */
 @JacksonXmlRootElement(localName = "alert")
 @JsonPropertyOrder({"stationId", "stationName", "river", "timestamp", "warningLevel", "waterLevel",
         "thresholdWaterLevel", "message"})
-@Schema(description = "Aktuelle Hochwasserwarnung")
 public class Alert {
 
     private final String stationId;
@@ -21,9 +16,7 @@ public class Alert {
     private final String river;
     private final Instant timestamp;
     private final WarningLevel warningLevel;
-    @Schema(description = "Aktueller Wasserstand in cm")
     private final double waterLevel;
-    @Schema(description = "Ueberschrittener Grenzwert in cm (Warnwert bzw. kritischer Wert)")
     private final double thresholdWaterLevel;
     private final String message;
 

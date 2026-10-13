@@ -2,14 +2,12 @@ package com.example.floodmonitor.exception;
 
 import org.springframework.http.HttpStatus;
 
-/**
- * Basisklasse fuer fachliche Fehler mit zugeordnetem HTTP-Statuscode.
- */
-public abstract class ApiException extends RuntimeException {
+// eigene Exception mit HTTP-Status, z.B. new ApiException(HttpStatus.NOT_FOUND, "...")
+public class ApiException extends RuntimeException {
 
     private final HttpStatus status;
 
-    protected ApiException(HttpStatus status, String message) {
+    public ApiException(HttpStatus status, String message) {
         super(message);
         this.status = status;
     }

@@ -8,9 +8,7 @@ import java.time.Clock;
 import java.time.Instant;
 import java.time.ZoneOffset;
 
-/**
- * Feste Uhr fuer Tests: "jetzt" ist immer 2026-05-01T12:00:00Z.
- */
+// in den Tests ist es immer 2026-05-01 12:00 UTC
 @TestConfiguration
 public class TestClockConfig {
 

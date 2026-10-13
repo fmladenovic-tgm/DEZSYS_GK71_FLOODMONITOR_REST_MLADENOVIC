@@ -1,1 +1,1 @@
-<?xml version='1.0' encoding='UTF-8'?><error><timestamp>2026-10-13T11:08:26Z</timestamp><status>404</status><error>Not Found</error><message>Station ST-999 wurde nicht gefunden</message><path>/api/v1/stations/ST-999</path></error>
+<?xml version='1.0' encoding='UTF-8'?><error><timestamp>2026-10-13T11:39:09Z</timestamp><status>404</status><error>Not Found</error><message>Station ST-999 wurde nicht gefunden</message><path>/api/v1/stations/ST-999</path></error>

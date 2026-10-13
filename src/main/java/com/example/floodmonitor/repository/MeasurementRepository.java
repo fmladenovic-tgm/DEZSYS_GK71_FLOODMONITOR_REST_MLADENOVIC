@@ -1,27 +1,55 @@
 package com.example.floodmonitor.repository;
 
 import com.example.floodmonitor.model.Measurement;
+import org.springframework.stereotype.Repository;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
-/**
- * Zugriff auf Messwerte.
- */
-public interface MeasurementRepository {
+// Messwerte pro Station, nach Zeit aufsteigend (neueste am Ende)
+@Repository
+public class MeasurementRepository {
 
-    Measurement save(Measurement measurement);
+    // damit der Speicher nicht volllaeuft
+    private static final int MAX_PER_STATION = 20000;
 
-    Optional<Measurement> findLatest(String stationId);
+    private final Map<String, List<Measurement>> data = new HashMap<>();
 
-    /**
-     * Messwerte einer Station im Zeitraum [from, to], aufsteigend nach Zeit sortiert.
-     * {@code null} bedeutet "keine Grenze".
-     */
-    List<Measurement> findByStation(String stationId, Instant from, Instant to);
+    public synchronized void save(Measurement m) {
+        List<Measurement> list = data.computeIfAbsent(m.getStationId(), k -> new ArrayList<>());
+        list.add(m);
+        if (list.size() > MAX_PER_STATION) {
+            list.remove(0);
+        }
+    }
 
-    void deleteByStation(String stationId);
+    public synchronized Measurement findLatest(String stationId) {
+        List<Measurement> list = data.get(stationId);
+        if (list == null || list.isEmpty()) {
+            return null;
+        }
+        return list.get(list.size() - 1);
+    }
 
-    void deleteAll();
+    // from/to duerfen null sein (= keine Grenze)
+    public synchronized List<Measurement> findByStation(String stationId, Instant from, Instant to) {
+        List<Measurement> result = new ArrayList<>();
+        for (Measurement m : data.getOrDefault(stationId, List.of())) {
+            if (from != null && m.getTimestamp().isBefore(from)) continue;
+            if (to != null && m.getTimestamp().isAfter(to)) continue;
+            result.add(m);
+        }
+        return result;
+    }
+
+    public synchronized void deleteByStation(String stationId) {
+        data.remove(stationId);
+    }
+
+    public synchronized void deleteAll() {
+        data.clear();
+    }
 }

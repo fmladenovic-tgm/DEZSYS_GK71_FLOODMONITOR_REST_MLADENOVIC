@@ -6,17 +6,12 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.time.Instant;
 import java.util.List;
 
-/**
- * Historische Messwerte einer Station (neueste zuerst).
- */
 @JacksonXmlRootElement(localName = "measurements")
 @JsonPropertyOrder({"stationId", "from", "to", "count", "measurements"})
-@Schema(description = "Historische Messwerte einer Station, neueste zuerst")
 public class MeasurementList {
 
     private final String stationId;

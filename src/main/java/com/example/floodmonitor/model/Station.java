@@ -3,34 +3,23 @@ package com.example.floodmonitor.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-import io.swagger.v3.oas.annotations.media.Schema;
 
-/**
- * Messstation an einem Flussabschnitt. Alle Wasserstands-Grenzwerte in cm.
- */
 @JacksonXmlRootElement(localName = "station")
 @JsonPropertyOrder({"id", "name", "river", "location", "normalWaterLevel", "warningWaterLevel",
         "criticalWaterLevel", "isActive", "status", "currentWarningLevel"})
-@Schema(description = "Messstation")
 public class Station {
 
-    @Schema(example = "ST-001")
     private String id;
-    @Schema(example = "Krems")
     private String name;
-    @Schema(example = "Donau")
     private String river;
     private Location location;
-    @Schema(description = "Mittlerer Wasserstand in cm", example = "250")
+    // alle Wasserstaende in cm
     private double normalWaterLevel;
-    @Schema(description = "Warnwert in cm", example = "300")
     private double warningWaterLevel;
-    @Schema(description = "Kritischer Wert in cm", example = "380")
     private double criticalWaterLevel;
-    private boolean active;
-    private StationStatus status;
-    @Schema(description = "Serverseitig berechnete aktuelle Warnstufe (read-only)",
-            accessMode = Schema.AccessMode.READ_ONLY)
+    private boolean active = true;
+    private StationStatus status = StationStatus.ONLINE;
+    // wird nur vom Server berechnet
     private WarningLevel currentWarningLevel;
 
     public Station() {
@@ -49,15 +38,6 @@ public class Station {
         this.status = status;
     }
 
-    /** Kopie der Station inkl. berechneter Warnstufe (fuer API-Antworten). */
-    public Station withCurrentWarningLevel(WarningLevel level) {
-        Station copy = new Station(id, name, river,
-                location == null ? null : new Location(location.getLatitude(), location.getLongitude()),
-                normalWaterLevel, warningWaterLevel, criticalWaterLevel, active, status);
-        copy.currentWarningLevel = level;
-        return copy;
-    }
-
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
     public String getName() { return name; }
@@ -73,6 +53,7 @@ public class Station {
     public double getCriticalWaterLevel() { return criticalWaterLevel; }
     public void setCriticalWaterLevel(double criticalWaterLevel) { this.criticalWaterLevel = criticalWaterLevel; }
 
+    // ohne @JsonProperty wuerde Jackson "active" draus machen
     @JsonProperty("isActive")
     public boolean isActive() { return active; }
 
@@ -81,5 +62,10 @@ public class Station {
 
     public StationStatus getStatus() { return status; }
     public void setStatus(StationStatus status) { this.status = status; }
+
+    // nur Getter -> Client kann die Warnstufe nicht setzen
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     public WarningLevel getCurrentWarningLevel() { return currentWarningLevel; }
+
+    public void setCurrentWarningLevel(WarningLevel currentWarningLevel) { this.currentWarningLevel = currentWarningLevel; }
 }
