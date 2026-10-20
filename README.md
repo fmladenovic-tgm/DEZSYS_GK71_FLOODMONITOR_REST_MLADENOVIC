@@ -231,4 +231,4 @@ Mit springdoc-openapi: Swagger UI unter `/swagger-ui.html`, die Spezifikation is
 
 ## AI
 
-Ich habe für die Umsetzung Claude Code verwendet, die Prompts stehen in [docs/AI_PROMPTS.md](docs/AI_PROMPTS.md).
+Ich habe für die Umsetzung Claude Code verwendet.
